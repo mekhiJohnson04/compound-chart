@@ -192,3 +192,25 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# --- Node.js ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+.cache/
+out/
+.next/
+public/static/
+coverage/
+package-lock.json
+
+# --- Mac OS ---
+.DS_Store
+
+# --- General IDE and editor folders ---
+.vscode/
+.idea/
+*.code-workspace
