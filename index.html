@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compound Interest Calculator</title>
+  </head>
+  <body>
+
+    <header class="top-bar">
+      <div class="top-bar-content">
+        <h1 class="app-title"><img src="/Chrome.png" alt="All Things Finance"></h1>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#">Compare</a></li>
+            <li><a href="#">Settings</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="panels">
+      <div class="container">
+
+        <form id="interest-form">
+          <input id="principal" type="number" placeholder="Principal ($)" required />
+          <input id="interest-rate" type="number" placeholder="Annual Interest Rate (%)" required />
+          <input id="years" type="number" placeholder="Years" />
+          <input id="monthly-contribution" type="number" placeholder="Monthly Contribution" />
+
+          <select id="frequency">
+            <option value="1">Yearly</option>
+            <option value="4">Quarterly</option>
+            <option value="12">Monthly</option>
+            <option value="365">Daily</option>
+          </select>
+
+          <button type="submit">Calculate</button>
+        </form>
+
+        <div id="result">
+          <h3>Final Amount: <span id="final-amount">$0.00</span></h3>
+        </div>
+
+        <canvas id="growthChart"></canvas>
+      </div>
+
+      <div class="crypto-container">
+
+        <form id="crypto-form">
+          <input id="crypto-price" type="text" placeholder="Crypto Name (e.g. 'bitcoin' 'ethereum')" required />
+          <button type="submit">Submit</button>
+
+          <div id="price-result">
+            <h3>Crypto Price: <span id="crypto-amount">$0.00</span></h3>
+          </div>
+        </form>
+        <canvas id="cryptoChart"></canvas>
+      </div>
+    </div>
+    <!-- Vite loads from src/main.js -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
