@@ -96,6 +96,7 @@ const cryptoForm = document.getElementById('crypto-form');
 const cryptoPriceSpan = document.getElementById('crypto-amount');
 
 cryptoForm.addEventListener('submit', function(e) {
+    e.preventDefault();
     let cryptoInput = document.getElementById('crypto-price').value;
     const cleanedInput = cryptoInput.trim();
 

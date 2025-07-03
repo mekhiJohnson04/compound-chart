@@ -111,7 +111,68 @@ def fetch_crypto_price(input: CryptoInput):
             raise HTTPException(status_code=400, detail="Invalid Input: Field cannot be empty or be a number.")
 
     else:
-        raise HTTPException(status_code=502, detail="Bad Gateway: Failed to fetch the price data from API. Try Again.")      
+        raise HTTPException(status_code=502, detail="Bad Gateway: Failed to fetch the price data from API. Try Again.")     
+
+import motor.motor_asyncio
+
+MONGODB_URL = "mongodb+srv://mekhij29:Ritamaejohn1929!@atfdb.qpv3aw9.mongodb.net/?retryWrites=true&w=majority&appName=ATFdb"
+
+# Connect to MongoDB
+client = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URL)
+db = client["ATFdb"]           # Database name
+asset_collection = db["assets"]      # Collection name
+
+class AssetInput(BaseModel):
+    assetType: str
+    symbol: str
+    shareAmount: float
+    purchaseDate: datetime
+
+@app.post("/list")
+async def add_asset(asset: AssetInput):
+
+    asset_list = []
+
+    if asset.assetType == "Stock":
+        API_KEY = 'd181861r01ql1b4l5s80d181861r01ql1b4l5s8g'
+        url = f'https://finnhub.io/api/v1/quote?symbol={asset.symbol}&token={API_KEY}'
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            stock_data = response.json()
+            price = stock_data["c"]
+            date = stock_data["datetime"]
+            amount_owned = asset.shareAmount * price
+
+            # creates document to insert into database
+            asset_doc = {
+                "assetType": asset.assetType,
+                "symbol": asset.symbol,
+                "purchaseDate": asset.purchaseDate.isoformat(),
+                "current_price": price,
+                "share_amount": asset.shareAmount,
+                "total_value": round(amount_owned, 2)
+            }
+            result = await asset_collection.insert_one(asset_doc)
+            asset_doc["_id"] = str(result.inserted_id)
+            return asset_doc
+        
+        else:
+            return {"error: Could not fetch stock price."}
+
+    if asset.assetType == "Crypto":
+        coin_id = get_coin_id(asset.symbol)
+
+        if coin_id:
+            url = f"https://api.coingecko.com/api/v3/coins/id/market_chart/range?ids={coin_id}&history={asset.purchaseDate}"
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                data = response.json()
+
+                price = data[coin_id]["usd"]
+                
+
 
 def get_coin_id(user_input):
     url = "https://api.coingecko.com/api/v3/coins/list"

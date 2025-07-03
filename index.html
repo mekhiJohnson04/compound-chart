@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -57,6 +57,21 @@
         <canvas id="cryptoChart"></canvas>
       </div>
     </div>
+
+    <div class="portfolio-container">
+      <form id="portfolio-form">
+        <select id="asset-type">
+          <option value="crypto">Crypto</option>
+          <option value="stock">Stock</option>
+        </select>
+        <input id="symbol" type="text" placeholder="Crypto or Stock Symbol (e.g. 'AAPL' 'BTC'):" required />
+        <input id="portfolio-amount" type="number" placeholder="Quantity (Shares) Owned (e.g. '2' '12.5'):" required />
+        <input id="purchase-date" type="date" placeholder="Purchase Date:" />
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
     <!-- Vite loads from src/main.js -->
     <script type="module" src="/src/main.js"></script>
   </body>
